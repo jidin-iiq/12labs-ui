@@ -159,7 +159,7 @@ def main():
         handle = st.text_input("Enter Instagram hashtag/keyword/mention:")
         if st.button("Fetch Videos"):
             if handle:
-                with st.spinner("Fetching data from Phyllo API..."):
+                with st.spinner("Fetching data using Phyllo API..."):
                     st.session_state.videos = fetch_data(handle)
                 st.success("Data fetched successfully!")
 
