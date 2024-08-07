@@ -43,7 +43,7 @@ INSTAGRAM_REELS = [
 ]
 
 # Function to fetch Instagram Reels data (mocked)
-def fetch_data_mock(handle, video_type):
+def fetch_data_mock(video_type):
     random_count = random.randint(5, 35)
     return INSTAGRAM_REELS[:random_count]
 
@@ -57,23 +57,19 @@ def query_mock(query_text):
 def main():
     st.title("Phyllo <> Twelve Labs")
 
-    video_type = st.selectbox("Select Video Type", ["GRWM", "Unboxing", "Fitness", "Gaming", "Travel"])
-
     if "videos" not in st.session_state:
         st.session_state.videos = None
 
     if "results" not in st.session_state:
         st.session_state.results = None
 
-    if st.session_state.videos is None:
-        # Step 1: Take Instagram handle input
-        handle = st.text_input("Enter Instagram hashtag/keyword/mention:")
-        if st.button("Fetch Videos"):
-            if handle:
-                with st.spinner("Fetching data using Phyllo API..."):
-                    time.sleep(15)
-                    st.session_state.videos = fetch_data_mock(handle, video_type)
-                st.success("Data fetched successfully!")
+    video_type = st.selectbox("Select Video Type", ["", "GRWM", "Unboxing", "Fitness", "Gaming", "Travel"], index=0)
+
+    if video_type and st.session_state.videos is None:
+        with st.spinner("Fetching data using Phyllo API..."):
+            time.sleep(15)
+            st.session_state.videos = fetch_data_mock(video_type)
+        st.success("Data fetched successfully!")
 
     if st.session_state.videos is not None and st.session_state.results is None:
         # Step 2: Take search query input
